@@ -1,0 +1,30 @@
+<!Doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<title>7.6</title>
+	</head>
+<body>
+   <form name="myform">
+       <input name="inpt" type="text" value="type english only!">
+   </form>
+   <script>
+       // 7.6. Сделать поле ввода, куда можно вводить только английские буквы 
+       // (проверка charCode и отмена действия по умолчанию, 
+       // либо изменение value в случае неподходящего символа).
+
+        var text = document.forms[0].elements.inpt;
+
+        text.addEventListener('keypress',ifEng,false);
+
+        function ifEng(event) {
+                console.log(event.charCode);
+        
+                if(event.charCode <= 97 || event.charCode >= 122) {
+                        event.preventDefault();
+                        text.value = 'Wrong!';
+                }
+        }
+   </script>
+</body>
+</html>

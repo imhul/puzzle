@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>setInterval</title>
+  <style>
+      .block {
+  width: 50px;
+  height: 50px;
+  background-color: red;
+  position: absolute;
+  top: 0;
+  left: 100px;
+}
+  </style>
+</head>
+<body>
+  <div class="block"></div>
+  <button id="stop">Stop</button>
+  <script>
+      function animate() {
+        var top = parseInt(block.style.top, 10);
+        if (top+size > document.documentElement.clientHeight) {
+            top = -size;
+            }
+        block.style.top = top + 2 + 'px';
+        }
+
+      var timerId = setInterval(animate, 20);
+      var btn = document.querySelector('#stop');
+      var block = document.querySelector('.block');
+      var size = 50;
+      block.style.top = -size + 'px';
+
+      btn.addEventListener('click', function(){
+        clearInterval(timerId);
+  }, false);
+  </script>
+</body>
+</html>
