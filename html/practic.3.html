@@ -1,0 +1,55 @@
+<!Doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<title>Практика</title>
+		<style>
+		.hidden {
+			visibility: hidden;
+			background-color: #ff4600;
+		}
+		</style>
+	</head>
+
+<body>
+	<input type="button" value="red">
+	<input type="button" value="green">
+	<input type="button" value="blue">
+	<input type="button" value="yellow">
+    <script>
+		var bodyBackground = document.querySelector('body');
+		var button = document.querySelectorAll('input');
+		var color;
+
+		for(var i=0; i<button.length; i++) {
+			button[i].addEventListener('click', function(e){
+				color = e.target.value;
+				bodyBackground.style.backgroundColor = color;
+				setCookie('bgColor', color, 99);
+			}, false);
+		}
+		// Сохранение данных в браузере
+		function setCookie(key, value, days) {
+			document.cookie = key + '=' + value + (days !== undefined ? ';max-age = ' + days*24*60*60 : '');
+		}
+
+		function getCookie(key) {
+			var cookies = document.cookie.split('; '); // разбиваем строку (document.cookie) на массив подстрок
+			cookies.forEach(function(cookie, i, cookies){
+				cookies[i] = cookie.split('=');
+			});
+			var cookie = cookies.find(function(cookie){
+				return cookie[0] == key;
+			});
+			return cookie ? cookie[1] : '';
+		}
+
+		document.addEventListener('DOMContentLoaded', function(event) {
+		bodyBackground.style.backgroundColor = getCookie('bgColor');
+		}, false);
+
+		// document.cookie = 'user=zahar'; path=/my-server/my-site/; max-age=100(100 секунд); или expires=Fri, 31 Dec 9999 23:59:59 GMT;
+
+	</script>
+</body>
+</html>

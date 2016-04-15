@@ -1,0 +1,38 @@
+<!Doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<title>Практика</title>
+		<style>
+		</style>
+	</head>
+
+<body>
+	<br><br>
+	<input type="text" class="text" value="Text...">
+	<input type="submit" class="button" value="Print">
+	<br><br>
+	<div class="textarea"></div>
+    <script>
+			var input = document.querySelector('.text');
+			var button = document.querySelector('.button');
+			var output = document.querySelector('.textarea');
+
+			button.addEventListener('click', function() {
+				print(input.value);
+			}, false);
+
+			function print(text) {
+				var timerId = setInterval(timer, 200);
+				var index = 0;
+				function timer() {
+					if(index > input.value.length - 1) {
+						clearInterval(timerId);
+					} else {
+						output.insertAdjacentText('beforeend', text[index++]);
+					}
+				}
+			}
+		</script>
+</body>
+</html>

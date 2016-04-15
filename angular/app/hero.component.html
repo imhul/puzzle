@@ -1,0 +1,25 @@
+<h1>{{title}}</h1>
+<h2>
+    <span style="color:{{hero.color}};">
+        {{hero.name}}
+        </span>
+    has superpower {{hero.power}}
+</h2>
+<div>
+    <label>name: </label>
+    <input [(ngModel)]="hero.name" placeholder="name">
+</div>
+<div>
+    <input type="button" value="Make green" (click)="onColorGreenChange()">
+</div>
+
+<br>
+
+<div>
+    <select [(ngModel)]="hero.power">
+        <option *ngFor="#p of powers" [value]="p">
+            {{p}}
+        </option>
+    </select>
+
+</div>

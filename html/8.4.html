@@ -1,0 +1,32 @@
+<!Doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<title>Практика 8.4</title>
+		<style>
+
+		</style>
+	</head>
+<body>
+	<div class="container"></div>
+    <script>
+var str = prompt('Введите любой текст');
+var output = document.querySelector('.container');
+
+var r = Math.floor(Math.random()*256);
+var g = Math.floor(Math.random()*256);
+var b = Math.floor(Math.random()*256);
+var colors = 'rgb('+r+','+g+','+b+')';
+
+function animate() {
+	for(var i=0; i<str.length; i++) {
+		str[i].style.color = colors;
+	}
+}
+var timer = setInterval(animate, 200);
+
+output.innerHTML = str;
+
+	</script>
+</body>
+</html>

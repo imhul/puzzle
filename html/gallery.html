@@ -1,0 +1,83 @@
+<!Doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<title>Практика</title>
+		<style>
+			body {
+				text-align: center;
+			}
+			.big {
+				position: fixed;
+				width: auto;
+				top: 30px;
+				left: 200px;
+			}
+			.container {
+				text-align: center;
+			}
+			.brain-gallery {
+				margin: 30px;
+				border: none;
+				width: 160px;
+			}
+			.title {
+				position: absolute;
+				bottom: 5%;
+				left: 50px;
+				color: red;
+				font-size: 40px;
+			}
+			.close {
+				position: absolute;
+				top: 1%;
+				right: 1%;
+				width: 48px;
+				height: 48px;
+				background: scroll url(http://icons.iconarchive.com/icons/icons8/ios7/48/Very-Basic-Close-icon.png) no-repeat 100% 0%;
+			}
+		</style>
+	</head>
+
+<body>
+	
+	<div class="container">
+		<img class="brain-gallery" title="Cat 1" src="https://www.petfinder.com/wp-content/uploads/2012/11/140272627-grooming-needs-senior-cat-632x475.jpg" alt="">
+		<img class="brain-gallery" title="Cat 2" src="https://www.proza.ru/pics/2011/07/15/798.jpg" alt="">
+		<img class="brain-gallery" title="Cat 3" src="http://cs322817.vk.me/v322817926/879/kYDwNr0NQNY.jpg" alt="">
+		<img class="brain-gallery" title="Cat 4" src="https://icdn.lenta.ru/images/2015/11/16/12/20151116121733229/pic_74a2e402f969c0e478632fedb2159d4c.jpg" alt="">
+		<br>
+		<img class="brain-gallery" title="Cat 5" src="http://i022.radikal.ru/1407/cd/20eee55e11a7.jpg" alt="">
+		<img class="brain-gallery" title="Cat 6" src="http://risovach.ru/upload/2013/02/mem/pidrila-ebanaya_10394797_orig_.jpeg" alt="">
+		<img class="brain-gallery" title="Cat 7" src="http://bomz.org/i/lol/785960-2011.02.25-06.33.24-bomz.org-lol_zlobniyyi_kote.jpg" alt="">
+		<img class="brain-gallery" title="Cat 8" src="http://monk.com.ua/uploads/images/00/00/02/2012/07/06/f8a85c.jpg" alt="">
+	</div>
+    <script>
+		var image = document.querySelectorAll('.brain-gallery');
+		var imageTitle, imageSrc, div, close, left, right;
+		
+		for(var i=0; i<image.length; i++) {
+			image[i].addEventListener('click', function(event){
+				imageSrc = event.target.getAttribute('src');
+				imageTitle = event.target.getAttribute('title');
+				div = document.createElement('div');
+				div.className = 'big';
+				div.innerHTML = "<img src='"+imageSrc+"'><div class='close'></div><div class='title'>"+imageTitle+"</div>";
+				
+				for(j=0; j<document.querySelectorAll('.big').length; j++) {
+					j;
+				}
+				if(j<1) {
+					document.body.appendChild(div);
+				} else {
+					return false;
+				}
+				var close = document.querySelector('.close');
+				close.addEventListener('click', function(e){ 
+					return div.remove();
+				}, false);
+			}, false);
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!Doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<title>HTTP запросы</title>
+        <style>
+		</style>
+	</head>
+
+<body>
+
+  <script>
+    // Общение между клиентом и сервером по протоколу HTTP
+    // Rest console
+
+    var request = new XMLHttpRequest();
+    request.open('GET', 'http://output.jsbin.com');
+    request.send();
+    request.addEventListener('load', function(){
+    if (request.readyState === request.DONE) {
+        if (request.status === 200) {
+            console.log(request.response);
+            console.log(request.responseText);
+            }
+        }
+    });
+  </script>
+</body>
+</html>

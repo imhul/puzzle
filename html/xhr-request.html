@@ -1,0 +1,55 @@
+<!Doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<title>XHR & JSON</title>
+        <style>
+		</style>
+	</head>
+<body>
+	<h2 class="header"></h2>
+  <table class="table">
+    <tr>
+			<th>Name</th>
+      <th>Surname</th>
+      <th>Age</th>
+    </tr>
+  </table>
+  <form action="" id="form1">
+    <input type="text" name="name" id="" value="User name">
+    <input type="text" name="surname" id="" value="User surname">
+    <input type="button" value="Click me" id="btn">
+  </form>
+  <script>
+	document.querySelector('#btn').addEventListener('click', makeRequest, false);
+	var form = document.querySelector('#form1');
+
+	function makeRequest() {
+	  var jsonData = {};
+	[].forEach.call(form.querySelectorAll('input[type=text]'), function(input) {
+	  jsonData[input.name] = input.value;
+	});
+
+	var request = new XMLHttpRequest();
+	request.open('POST', 'data.json');
+	request.responseType = 'json';
+	request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+	request.send(JSON.stringify(jsonData));
+	request.addEventListener('load', function(){
+	  if (request.readyState === request.DONE) {
+	    if (request.status === 200) {
+	      var headerText = request.response.group;
+	      var students = request.response.students;
+	      var header = document.querySelector('.header');
+	      header.innerText = headerText;
+	      var table = document.querySelector('.table');
+	      for (var i=0; i<students.length; i++) {
+	        table.insertAdjacentHTML('beforeend', '<tr><td>' + students[i].name + '</td><td>' + students[i].surname + '</td></tr>');
+	      }
+	    }
+	  }
+	});
+	}
+  </script>
+</body>
+</html>

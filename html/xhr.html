@@ -1,0 +1,39 @@
+<!Doctype html>
+<html lang="ru">
+	<head>
+		<meta charset="utf-8">
+		<title>XHR & JSON</title>
+        <style>
+		</style>
+	</head>
+<body>
+  <h2 class="header"></h2>
+  <table class="table">
+    <tr>
+      <th>Name</th>
+      <th>Surname</th>
+      <th>Age</th>
+    </tr>
+  </table>
+  <script>
+  var request = new XMLHttpRequest();
+  request.open('GET', 'data.json');
+  request.responseType = 'json';
+  request.send();
+  request.addEventListener('load', function(){
+  if (request.readyState === request.DONE) {
+    if (request.status === 200) {
+      var headerText = request.response.group;
+      var students = request.response.students;
+      var header = document.querySelector('.header');
+      header.innerText = headerText;
+      var table = document.querySelector('.table');
+      for (var i=0; i<students.length; i++) {
+        table.insertAdjacentHTML('beforeend', '<tr><td>' + students[i].name + '</td><td>' + students[i].surname + '</td><td>' + students[i].age + '</td></tr>');
+        }
+      }
+    }
+  });
+  </script>
+</body>
+</html>

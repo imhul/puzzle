@@ -30,7 +30,7 @@
 				
 				var passInput = form.elements.pass;
 				
-				if(passInput.value.search(/^[a-zA-Z0-9#!$@?]+{10,20}$/) === -1) {
+				if(passInput.value.search(/^((?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[#!$@?])){10,20}$/) === -1) {
 					passInput.style.border = '1px solid red';
 				} else {
 					passInput.style.border = '';
@@ -38,7 +38,7 @@
 				
 				var emailInput = form.elements.email;
 				
-				if(emailInput.value.search(/^[a-z0-9]+[@][a-z0-9]+[.]([a-z]{0,4})$/) === -1) {
+				if(emailInput.value.search(/^[a-z0-9]+[@][a-z0-9-]+[.]([a-z]{2,6})$/) === -1) {
 					emailInput.style.border = '1px solid red';
 				} else {
 					emailInput.style.border = '';
