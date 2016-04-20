@@ -47,6 +47,7 @@ intermediate
 publish
 .idea
 angular/node_modules
+angular/1
 
 # build script local files
 build/buildinfo.properties

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Tic Tac Toy</title>
+  <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
+  <script src="http://code.jquery.com/jquery-2.2.3.min.js"></script>
+	<style>
+	body {
+  margin: 0;
+  padding: 0;
+}
+#game {
+  border-collapse: collapse;
+}
+#game td {
+  border: 1px solid #333;
+  text-align: center;
+  line-height: 0;
+}
+#output {
+  display: none;
+  position: fixed;
+  z-index: 5;
+  top: 0;
+  left: 0;
+  right: 0;
+  color: red;
+  text-shadow: 0 0 2px #fff;
+  text-align: center;
+  line-height: 100vh;
+  font-size: 3em;
+  background: rgba(0,0,0,0.6);
+  bottom: 0;
+}
+#start {
+  position: fixed;
+  z-index: 10;
+  right: 0;
+  top: 0;
+  font-size: 3em;
+  background-color: #3d3;
+}
+	</style>
+</head>
+<body>
+  <div id="game"></div>
+  <div id="output"></div>
+  <div id="start">Начать игру</div>
+	<script>
+	'use strict';
+var myDataRef = new Firebase('https://glowing-fire-9474.firebaseio.com/');
+const size = 3;
+const cssSize = Math.floor(100/size) + 'vmin';
+let nextSymbol = 0;
+let symbols = ['X', '0'];
+let firstUpdate = true;
+let mySymbol;
+const YOU_WON = '<h1>Вы выиграли!</h1>';
+const YOU_LOSE = '<h1>Вы проиграли, ахаха!</h1>';
+
+init();
+
+function init() {
+  $('#output').hide();
+  $('#game').off().empty();
+  $('<table/>').appendTo($('#game'));
+
+  for (let i=0; i<size; i++) {
+    $('#game').children('table').append('<tr/>');
+    for (let j=0; j<size; j++) {
+      $('<td/>')
+        .css({
+          width: cssSize,
+          height: cssSize,
+          fontSize: cssSize
+        })
+        .appendTo($('#game').find('tr:last'));
+    }
+  }
+
+  $('#game').on('click', e => {
+    if (e.target.tagName !== 'TD' || e.target.innerText !== '' || nextSymbol !== mySymbol) return;
+    $(e.target).text(symbols[nextSymbol++]);
+    if (nextSymbol >= symbols.length) {
+      nextSymbol = 0;
+    }
+    myDataRef.set({
+      nextSymbol: nextSymbol,
+      field: Array.from($('#game').find('tr')).map(tr => {
+        return Array.from($(tr).find('td')).map(td => $(td).text());
+      })
+    });
+    checkWin();
+  });
+}
+
+$('#start').on('click', e => {
+  init();
+  clearDataOnServer();
+});
+
+myDataRef.on('value', function(snapshot) {
+  let data = snapshot.val();
+  printField(data.field);
+  nextSymbol = data.nextSymbol;
+  checkWin();
+  if (firstUpdate) {
+    firstUpdate = false;
+    mySymbol = nextSymbol;
+  }
+});
+
+function clearDataOnServer() {
+  let row = [];
+  let arr = [];
+  for (let i=0; i<size; i++) {
+    row.push('');
+  }
+  for (let i=0; i<size; i++) {
+    arr.push(row);
+  }
+  myDataRef.set({
+    nextSymbol: nextSymbol,
+    field: arr
+  });
+}
+
+function printField(field) {
+  field.forEach((row, i) => {
+    row.forEach((cell, j) => {
+      $('#game').find(`tr:eq(${i}) td:eq(${j})`).text(cell);
+    });
+  });
+}
+
+function checkWin() {
+  let checkDiagonal1 = $('tr:first td:first').text();
+  let checkDiagonal1win;
+  let checkDiagonal2 = $('tr:first td:last').text();
+  let checkDiagonal2win;
+  for (let i=0; i<size; i++) {
+    let checkRow = $(`tr:eq(${i}) td:first`).text();
+    let checkRowWin;
+    let checkColumn = $(`tr:first td:eq(${i})`).text();
+    let checkColumnWin;
+    for (let j=0; j<size; j++) {
+      if (i === j && $(`tr:eq(${i}) td:eq(${j})`).text() !== checkDiagonal1) {
+        checkDiagonal1win = false;
+      }
+      if (i === size-j-1 && $(`tr:eq(${i}) td:eq(${j})`).text() !== checkDiagonal2) {
+        checkDiagonal2win = false;
+      }
+      if ($(`tr:eq(${i}) td:eq(${j})`).text() !== checkRow) {
+        checkRowWin = false;
+      }
+      if ($(`tr:eq(${j}) td:eq(${i})`).text() !== checkColumn) {
+        checkColumnWin = false;
+      }
+    }
+    if (checkRow && checkRowWin !== false) {
+      gameOver(checkRow);
+    }
+    if (checkColumn && checkColumnWin !== false) {
+      gameOver(checkColumn);
+    }
+  }
+  if (checkDiagonal1 && checkDiagonal1win !== false) {
+    gameOver(checkDiagonal1);
+  }
+  if (checkDiagonal2 && checkDiagonal2win !== false) {
+    gameOver(checkDiagonal2);
+  }
+}
+
+function gameOver(symbolWins) {
+  if (symbols.indexOf(symbolWins) === mySymbol) {
+    $('#output').empty().prepend(YOU_WON);
+  } else {
+    $('#output').empty().prepend(YOU_LOSE);
+  }
+  $('#output').show();
+  $('#game').off('click');
+}
+
+	</script>
+</body>
+</html>
