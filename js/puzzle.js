@@ -68,7 +68,7 @@ function RunPrefixMethod(obj, method) {
 
 jQuery(document).ready(function($) {
 
-  const PUZZLE_DIFFICULTY = 5;
+  const PUZZLE_DIFFICULTY = selectLevel.puzzleLevel;
   const PUZZLE_HOVER_TINT = '#009900';
 
   var _stage;
@@ -103,16 +103,43 @@ jQuery(document).ready(function($) {
 
   // game
   var timeout;
+  var totalTime;
+  var puzzleLevel;
+  var level = document.querySelector('.level');
+  var easyLevel = document.querySelector('#easy');
+  var normalLevel = document.querySelector('#normal');
+  var hardLevel = document.querySelector('#hard');
   var playButton = document.querySelector('#play');
   var stopButton = document.querySelector('#stop');
-  playButton.style.display = 'inline-block';
-  stopButton.style.display = 'none';
   var legend = document.querySelector('.legend');
-  legend.innerText = 'Upload your picture or/and push play to start the game!';
   var clock = document.querySelector('.timer');
 
+  level.innerText = 'Normal';
+  playButton.style.display = 'inline-block';
+  stopButton.style.display = 'none';
+  legend.innerText = 'Upload your picture or/and push play to start the game!';
+
+  var selectLevel = {
+    easy: function() {
+      level.innerText = 'Easy';
+      this.puzzleLevel = 4 && this.totalTime = 40;
+    },
+    normal: function() {
+      level.innerText = 'Normal';
+      this.puzzleLevel = 5 && this.totalTime = 60;
+    },
+    hard: function() {
+      level.innerText = 'Hard';
+      this.puzzleLevel = 6 && this.totalTime = 90;
+    }
+  }
+
+  $('#easy').on('click touchend', selectLevel.easy.bind(selectLevel));
+  $('#normal').on('click touchend', selectLevel.easy.bind(selectLevel));
+  $('#hard').on('click touchend', selectLevel.easy.bind(selectLevel));
+
   var game = {
-    TOTAL_SECONDS: 60,
+    TOTAL_SECONDS: selectLevel.totalTime,
     secondsLeft: -1,
     isStarted: false,
     isPlaying: false,
@@ -129,7 +156,6 @@ jQuery(document).ready(function($) {
       timeout && clearInterval(timeout);
     },
     timer: function() {
-
       switch (this.secondsLeft--) {
         case 60:
           clock.style.color = 'LimeGreen';
@@ -143,7 +169,6 @@ jQuery(document).ready(function($) {
         default:
           break;
       }
-
       if (this.secondsLeft < 0) {
         timeout && clearInterval(timeout);
         gameOver();
@@ -178,6 +203,16 @@ jQuery(document).ready(function($) {
       playButton.style.display = 'inline-block';
       stopButton.style.display = 'none';
       timeout && clearInterval(timeout);
+    },
+    reload: function(e) {
+      this.renderTime(0);
+      this.isStarted = false;
+      this.isPlaying = false;
+      initPuzzle();
+      legend.innerText = 'Game is reloaded. Upload your picture or/and push play to start the game!';
+      playButton.style.display = 'inline-block';
+      stopButton.style.display = 'none';
+      timeout && clearInterval(timeout);
     }
   }
 
@@ -188,13 +223,13 @@ jQuery(document).ready(function($) {
   imageLoader.addEventListener('change', init, false);
 
   function init(img) {
+    $('.legend').innerText = 'Picture is uploaded. Push play to start the game!';
     var reader = new FileReader();
     reader.onload = function(event) {
       _img = new Image();
       _img.addEventListener('load', onImage, false);
       _img.src = event.target.result;
     }
-    legend.innerText = 'Picture is uploaded. Push play to start the game!';
     reader.readAsDataURL(img.target.files[0]);
   }
 
@@ -210,7 +245,7 @@ jQuery(document).ready(function($) {
 
   function setCanvas() {
     _canvas = $('#canvas');
-    _stage = _canvas[0].getContext('2d');
+    _stage = _canvas[0].getContext('2d'); // _stage = ctx
     _canvas[0].width = _puzzleWidth;
     _canvas[0].height = _puzzleHeight;
   }
@@ -244,7 +279,6 @@ jQuery(document).ready(function($) {
         yPos += _pieceHeight;
       }
     }
-
   }
 
   $('#play').on('click touchend', function(e) {
@@ -252,14 +286,13 @@ jQuery(document).ready(function($) {
     if (Modernizr.touch && Modernizr.mq('(min-width: 950px) and (orientation: landscape)')) {
       goFullScreen();
     }!game.isStarted && shufflePuzzle();
-
     game.play();
-
   });
 
   $('#stop').on('click touchend', game.stopOrPause.bind(game));
-  $('#reload').on('click touchend', game.reset.bind(game));
+  $('#reload').on('click touchend', game.reload.bind(game));
 
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   function shufflePuzzle() {
     _pieces = shuffleArray(_pieces);
@@ -272,8 +305,10 @@ jQuery(document).ready(function($) {
       piece = _pieces[i];
       piece.xPos = xPos;
       piece.yPos = yPos;
-      // Тут должна быть анимация пазлов
+      /////////
+      // TODO Тут должна быть анимация пазлов
       //_stage.animate({_stage.translate(xPos, yPos)}, 2000);
+      /////////
       _stage.drawImage(_img, piece.sx, piece.sy, _pieceWidth, _pieceHeight, xPos, yPos, _pieceWidth, _pieceHeight);
       _stage.strokeRect(xPos, yPos, _pieceWidth, _pieceHeight);
       xPos += _pieceWidth;
@@ -282,6 +317,8 @@ jQuery(document).ready(function($) {
         yPos += _pieceHeight;
       }
     }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if (!touchSupported) {
       $('#canvas').on('mousedown', onPuzzleClick);
     } else {
