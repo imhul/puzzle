@@ -19,6 +19,9 @@ h1, h2 {
   color: #f5f5f5;
   text-decoration: none;
 }
+.level {
+  min-width: 80px;
+}
 .selectbutton {
     position: relative;
     overflow: hidden;
