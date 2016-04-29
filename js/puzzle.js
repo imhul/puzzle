@@ -1,5 +1,5 @@
 jQuery(document).ready(function($) {
-
+'use strict'
   const PUZZLE_HOVER_TINT = '#009900';
 
   var _stage;
@@ -51,8 +51,8 @@ jQuery(document).ready(function($) {
   legend.innerText = 'Upload your picture or/and push play to start the game!';
 
   $('.level').on('click touchend', function() {
-       return false
-   }, false);
+    return false
+  }, false);
 
   var game = {
     LEVEL: 5,
@@ -131,25 +131,28 @@ jQuery(document).ready(function($) {
       stopButton.style.display = 'none';
       timeout && clearInterval(timeout);
     },
-    selectLevel: function (_level, evt) {
+    selectLevel: function(_level, evt) {
       evt.preventDefault();
       level.innerText = _level;
       switch (_level) {
-        case 'Easy': {
-          this.LEVEL = 4;
-          this.TOTAL_SECONDS = 30;
-          break;
-        }
-        case 'Normal': {
-          this.LEVEL = 5;
-          this.TOTAL_SECONDS = 60;
-          break;
-        }
-        case 'Hard': {
-          this.LEVEL = 6;
-          this.TOTAL_SECONDS = 90;
-          break;
-        }
+        case 'Easy':
+          {
+            this.LEVEL = 4;
+            this.TOTAL_SECONDS = 30;
+            break;
+          }
+        case 'Normal':
+          {
+            this.LEVEL = 5;
+            this.TOTAL_SECONDS = 60;
+            break;
+          }
+        case 'Hard':
+          {
+            this.LEVEL = 6;
+            this.TOTAL_SECONDS = 90;
+            break;
+          }
         default:
           break;
       }
@@ -247,16 +250,29 @@ jQuery(document).ready(function($) {
     var piece;
     var xPos = 0;
     var yPos = 0;
-    for (i = 0; i < _pieces.length; i++) {console.log('process piece : ', piece); // Тут выводим полученные координаты
+
+    // window.requestAnimationFrame(draw);
+    //   function draw() {
+    //////////////////////////////////////////////////////////
+    // TODO Тут должна быть анимация пазлов
+    //_stage.animate({_stage.translate(xPos, yPos)}, 2000);
+    //////////////////////////////////////////////////////////
+    //     _stage.clearRect(0, 0, _puzzleWidth, _puzzleHeight);
+    //     _stage.translate(_pieceWidth, _pieceHeight);
+    //     _stage.drawImage(_img, xPos, yPos, _pieceWidth, _pieceHeight, xPos, yPos, _pieceWidth, _pieceHeight);
+    //     _stage.drawImage(_img, piece.sx, piece.sy, _pieceWidth, _pieceHeight, xPos, yPos, _pieceWidth, _pieceHeight);
+    //   }
+
+    for (i = 0; i < _pieces.length; i++) {
+      console.log('process piece : ', piece); // Тут выводим полученные координаты
       piece = _pieces[i];
       piece.xPos = xPos;
       piece.yPos = yPos;
-      ///////////////////////////////////////////////////////////
-      // TODO Тут должна быть анимация пазлов
-      //_stage.animate({_stage.translate(xPos, yPos)}, 2000);
-      ///////////////////////////////////////////////////////////
+      
       _stage.drawImage(_img, piece.sx, piece.sy, _pieceWidth, _pieceHeight, xPos, yPos, _pieceWidth, _pieceHeight);
-      //_stage.strokeRect(xPos, yPos, _pieceWidth, _pieceHeight);
+      
+      //draw();
+
       xPos += _pieceWidth;
       if (xPos >= _puzzleWidth) {
         xPos = 0;
@@ -273,6 +289,7 @@ jQuery(document).ready(function($) {
         onPuzzleClick(e);
       });
     }
+    //draw();
   }
 
   function onPuzzleClick(e) {
