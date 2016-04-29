@@ -3,8 +3,27 @@ html, body {
     height: 100%;
     color: #444444;
 }
-h1, h2 {
+html {
+    background: rgb(243, 197, 189);
+    background: -moz-radial-gradient(center, ellipse cover, rgba(243, 197, 189, 1) 0%, rgba(232, 108, 87, 1) 0%, rgba(255, 68, 0, 1) 0%, rgba(249, 149, 0, 1) 0%, rgba(255, 68, 0, 1) 100%);
+    background: -webkit-radial-gradient(center, ellipse cover, rgba(243, 197, 189, 1) 0%, rgba(232, 108, 87, 1) 0%, rgba(255, 68, 0, 1) 0%, rgba(249, 149, 0, 1) 0%, rgba(255, 68, 0, 1) 100%);
+    background: radial-gradient(ellipse at center, rgba(243, 197, 189, 1) 0%, rgba(232, 108, 87, 1) 0%, rgba(255, 68, 0, 1) 0%, rgba(249, 149, 0, 1) 0%, rgba(255, 68, 0, 1) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#f3c5bd', endColorstr='#ff4400', GradientType=1);
+}
+h1, h2, h3 {
     font-family: 'Titillium Web', sans-serif;
+}
+h1.uk-heading-large {
+  font-size: 6.4em;
+  line-height: 50px;
+}
+h2.uk-heading-large {
+  font-size: 5em;
+  line-height: 50px;
+}
+h3.uk-heading-large {
+  font-size: 3em;
+  line-height: 20px;
 }
 .uk-dropdown {
   background-color: #444444;
@@ -55,6 +74,8 @@ input[type=file] {
 .uk-button {
   background-color: #444444;
   color: #F99400;
+  z-index: 1;
+  position: relative;
 }
 .uk-button-xlarge {
   padding: 20px 50px;
@@ -68,18 +89,14 @@ input[type=file] {
 .uk-container {
     text-align: center;
 }
+.uk-margin-small-top {
+    margin-top: 0 !important;
+}
 .uk-form-icon > [class*="uk-icon-"] {
     color: #f5f5f5;
 }
 .uk-form legend::after {
     border-bottom: none;
-}
-html {
-    background: rgb(243, 197, 189);
-    background: -moz-radial-gradient(center, ellipse cover, rgba(243, 197, 189, 1) 0%, rgba(232, 108, 87, 1) 0%, rgba(255, 68, 0, 1) 0%, rgba(249, 149, 0, 1) 0%, rgba(255, 68, 0, 1) 100%);
-    background: -webkit-radial-gradient(center, ellipse cover, rgba(243, 197, 189, 1) 0%, rgba(232, 108, 87, 1) 0%, rgba(255, 68, 0, 1) 0%, rgba(249, 149, 0, 1) 0%, rgba(255, 68, 0, 1) 100%);
-    background: radial-gradient(ellipse at center, rgba(243, 197, 189, 1) 0%, rgba(232, 108, 87, 1) 0%, rgba(255, 68, 0, 1) 0%, rgba(249, 149, 0, 1) 0%, rgba(255, 68, 0, 1) 100%);
-    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#f3c5bd', endColorstr='#ff4400', GradientType=1);
 }
 body canvas {
     -webkit-border-top-right-radius: 5px;
