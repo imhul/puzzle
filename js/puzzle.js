@@ -1,5 +1,5 @@
 jQuery(document).ready(function($) {
-'use strict'
+
   const PUZZLE_HOVER_TINT = '#009900';
 
   var _stage;
@@ -37,9 +37,6 @@ jQuery(document).ready(function($) {
   var totalTime;
   var puzzleLevel;
   var level = document.querySelector('.level');
-  var easyLevel = document.querySelector('#easy');
-  var normalLevel = document.querySelector('#normal');
-  var hardLevel = document.querySelector('#hard');
   var playButton = document.querySelector('#play');
   var stopButton = document.querySelector('#stop');
   var legend = document.querySelector('.legend');
@@ -51,8 +48,8 @@ jQuery(document).ready(function($) {
   legend.innerText = 'Upload your picture or/and push play to start the game!';
 
   $('.level').on('click touchend', function() {
-    return false
-  }, false);
+       return false
+   }, false);
 
   var game = {
     LEVEL: 5,
@@ -131,32 +128,29 @@ jQuery(document).ready(function($) {
       stopButton.style.display = 'none';
       timeout && clearInterval(timeout);
     },
-    selectLevel: function(_level, evt) {
+    selectLevel: function (_level, evt) {
       evt.preventDefault();
       level.innerText = _level;
       switch (_level) {
-        case 'Easy':
-          {
-            this.LEVEL = 4;
-            this.TOTAL_SECONDS = 30;
-            break;
-          }
-        case 'Normal':
-          {
-            this.LEVEL = 5;
-            this.TOTAL_SECONDS = 60;
-            break;
-          }
-        case 'Hard':
-          {
-            this.LEVEL = 6;
-            this.TOTAL_SECONDS = 90;
-            break;
-          }
+        case 'Easy': {
+          this.LEVEL = 4;
+          this.TOTAL_SECONDS = 30;
+          break;
+        }
+        case 'Normal': {
+          this.LEVEL = 5;
+          this.TOTAL_SECONDS = 60;
+          break;
+        }
+        case 'Hard': {
+          this.LEVEL = 6;
+          this.TOTAL_SECONDS = 90;
+          break;
+        }
         default:
           break;
       }
-      onImage(evt);
+      //onImage(evt);
     }
   }
 
@@ -250,29 +244,16 @@ jQuery(document).ready(function($) {
     var piece;
     var xPos = 0;
     var yPos = 0;
-
-    // window.requestAnimationFrame(draw);
-    //   function draw() {
-    //////////////////////////////////////////////////////////
-    // TODO Тут должна быть анимация пазлов
-    //_stage.animate({_stage.translate(xPos, yPos)}, 2000);
-    //////////////////////////////////////////////////////////
-    //     _stage.clearRect(0, 0, _puzzleWidth, _puzzleHeight);
-    //     _stage.translate(_pieceWidth, _pieceHeight);
-    //     _stage.drawImage(_img, xPos, yPos, _pieceWidth, _pieceHeight, xPos, yPos, _pieceWidth, _pieceHeight);
-    //     _stage.drawImage(_img, piece.sx, piece.sy, _pieceWidth, _pieceHeight, xPos, yPos, _pieceWidth, _pieceHeight);
-    //   }
-
-    for (i = 0; i < _pieces.length; i++) {
-      console.log('process piece : ', piece); // Тут выводим полученные координаты
+    for (i = 0; i < _pieces.length; i++) {console.log('process piece : ', piece); // Тут выводим полученные координаты
       piece = _pieces[i];
       piece.xPos = xPos;
       piece.yPos = yPos;
-      
+      ///////////////////////////////////////////////////////////
+      // TODO Тут должна быть анимация пазлов
+      //_stage.animate({_stage.translate(xPos, yPos)}, 2000);
+      ///////////////////////////////////////////////////////////
       _stage.drawImage(_img, piece.sx, piece.sy, _pieceWidth, _pieceHeight, xPos, yPos, _pieceWidth, _pieceHeight);
-      
-      //draw();
-
+      //_stage.strokeRect(xPos, yPos, _pieceWidth, _pieceHeight);
       xPos += _pieceWidth;
       if (xPos >= _puzzleWidth) {
         xPos = 0;
@@ -289,7 +270,6 @@ jQuery(document).ready(function($) {
         onPuzzleClick(e);
       });
     }
-    //draw();
   }
 
   function onPuzzleClick(e) {
@@ -370,7 +350,7 @@ jQuery(document).ready(function($) {
         continue;
       }
       _stage.drawImage(_img, piece.sx, piece.sy, _pieceWidth, _pieceHeight, piece.xPos, piece.yPos, _pieceWidth, _pieceHeight);
-      _stage.strokeRect(piece.xPos, piece.yPos, _pieceWidth, _pieceHeight);
+      //_stage.strokeRect(piece.xPos, piece.yPos, _pieceWidth, _pieceHeight);
       if (_currentDropPiece == null) {
         if (_mouse.x < piece.xPos || _mouse.x > (piece.xPos + _pieceWidth) || _mouse.y < piece.yPos || _mouse.y > (piece.yPos + _pieceHeight)) {} else {
           _currentDropPiece = piece;
@@ -419,7 +399,7 @@ jQuery(document).ready(function($) {
     for (i = 0; i < _pieces.length; i++) {
       piece = _pieces[i];
       _stage.drawImage(_img, piece.sx, piece.sy, _pieceWidth, _pieceHeight, piece.xPos, piece.yPos, _pieceWidth, _pieceHeight);
-      _stage.strokeRect(piece.xPos, piece.yPos, _pieceWidth, _pieceHeight);
+      //_stage.strokeRect(piece.xPos, piece.yPos, _pieceWidth, _pieceHeight);
       if (piece.xPos != piece.sx || piece.yPos != piece.sy) {
         gameWin = false;
       }
